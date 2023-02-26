@@ -5,10 +5,10 @@
 #include "Node.hpp"
 #include "NodeKind.hpp"
 #include "ObjectNode.hpp"
+#include "OptionalString.hpp"
 #include "StringLeaf.hpp"
 
 #include <iostream>
-#include <optional>
 
 class JsonParser
 {
@@ -18,7 +18,7 @@ private:
     void extract_spaces();
     bool check_next_char_equals(int c, std::string_view other_possibilities = "");
 
-    std::optional<std::string> extract_string();
+    OptionalString extract_string();
 
     std::unique_ptr<Node> parse_Node();
     std::unique_ptr<Node> parse_constant(std::string_view target);
