@@ -17,4 +17,6 @@ public:
 
     void   insert(std::string key, NodePtr value) { _data.emplace(std::move(key), std::move(value)); }
     size_t child_count() const { return _data.size(); }
+    size_t height() const override;
+    size_t node_count() const override;
 };
