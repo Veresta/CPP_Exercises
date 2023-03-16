@@ -247,8 +247,8 @@ std::unique_ptr<Node> JsonParser::run()
 
 std::unique_ptr<Node> JsonParser::parse_from_istream(std::istream& in)
 {
-    JsonParser parser(in);
-    std::unique_ptr<Node>    parsed_tree = parser.run();
+    JsonParser            parser(in);
+    std::unique_ptr<Node> parsed_tree = parser.run();
     if (parsed_tree)
         return parsed_tree;
     else
