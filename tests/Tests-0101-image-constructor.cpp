@@ -1,11 +1,10 @@
-#include "../src/pixels.hpp"
 #include "../src/image.hpp"
+#include "../src/pixels.hpp"
 
 #include <catch2/catch_test_macros.hpp>
-
+#include <complex>
 #include <iostream>
 #include <type_traits>
-#include <complex>
 
 TEST_CASE("Image is a template class that can be constructed from a default pixel")
 {
@@ -18,9 +17,9 @@ TEST_CASE("Default constructor")
     // Foo lol = {}; is valid
     struct Foo
     {
-        std::string s;
+        std::string                           s;
         std::array<std::vector<uint32_t>, 64> stuff;
     };
-    const Image<char, 1, 1> img{};
-    const Image<Foo, 1, 1> img2{};
+    const Image<char, 1, 1> img {};
+    const Image<Foo, 1, 1>  img2 {};
 }
