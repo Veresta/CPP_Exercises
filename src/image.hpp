@@ -18,48 +18,70 @@ private:
 
 public:
     Image() = default;
+
     Image(const P& value)
     {
-        for (size_t i = 0; i < H; ++i)
+        for (size_t j = 0; j < H; ++j)
         {
-            for (size_t j = 0; j < W; ++j)
+            for (size_t i = 0; i < W; ++i)
             {
                 pixels[i][j] = value;
             }
         }
     }
+
+    const P& operator()(const size_t i, const size_t j) const { return pixels[j][i]; }
+    P&       operator()(const size_t i, const size_t j) { return pixels[j][i]; }
+
     Image<P, W, H>(const std::function<P(const size_t i, const size_t j)>& functor)
     {
-        for (size_t i = 0; i < H; ++i)
+        for (size_t j = 0; j < H; ++j)
         {
-            for (size_t j = 0; j < W; ++j)
+            for (size_t i = 0; i < W; ++i)
             {
-                // pixels[i][j] = functor(i, j);
-                setPixel(i, j, functor(i, j));
+                pixels[j][i] = functor(i, j);
+                //(*this)(i,j) = functor(i, j);
             }
         }
     }
-
-    // Accesseur en lecture
-    const P& getPixel(size_t i, size_t j) const { return pixels[i][j]; }
-
-    // Accesseur en écriture
-    void setPixel(size_t i, size_t j, const P& value) { pixels[i][j] = value; }
-
-    P& operator()(const size_t i, const size_t j) { return pixels[i][j]; }
-
-    const P& operator()(const size_t i, const size_t j) const { return getPixel(i, j); }
 };
 
 template <typename A, typename B, size_t W, size_t H>
 Image<A, W, H> operator+(const Image<A, W, H>& im1, const Image<B, W, H>& im2)
 {
     Image<A, W, H> im;
-    for (size_t i = 0; i < W; ++i)
+    for (size_t j = 0; j < H; ++j)
     {
-        for (size_t j = 0; j < H; ++j)
+        for (size_t i = 0; i < W; ++i)
         {
             im(i, j) = im1(i, j) + im2(i, j);
+        }
+    }
+    return im;
+}
+
+template <size_t W, size_t H>
+Image<RGB, W, H> operator+(const Image<Luma, W, H>& lhs, const Image<RGBA, W, H>& rhs)
+{
+    Image<RGB, W, H> im;
+    for (size_t j = 0; j < H; ++j)
+    {
+        for (size_t i = 0; i < W; ++i)
+        {
+            im(i, j) = lhs(i, j) + rhs(i, j);
+        }
+    }
+    return im;
+}
+template <size_t W, size_t H>
+Image<RGB, W, H> operator+(const Image<Luma, W, H>& lhs, const Image<RGB, W, H>& rhs)
+{
+    Image<RGB, W, H> im;
+    for (size_t j = 0; j < H; ++j)
+    {
+        for (size_t i = 0; i < W; ++i)
+        {
+            im(i, j) = lhs(i, j) + rhs(i, j);
         }
     }
     return im;
